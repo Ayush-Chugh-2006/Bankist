@@ -81,10 +81,12 @@ createUserNames(accounts);
 
 // Display Movements
 
-const displayMovements = movements => {
+const displayMovements = (movements, sort = false) => {
   containerMovements.innerHTML = '';
 
-  movements.forEach((mov, i) => {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -223,3 +225,11 @@ btnClose.addEventListener('click', e => {
     containerApp.style.opacity = 0;
   }
 });
+
+let sorted = false;
+
+btnSort.addEventListener('click', (e) => {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+})
